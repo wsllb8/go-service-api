@@ -3,6 +3,7 @@ package config
 var (
 	Server *ServerConfig
 	DB     *DBConfig
+	Redis  *RedisConfig
 )
 
 type ServerConfig struct {
@@ -24,4 +25,10 @@ type DBConfig struct {
 	MaxOpenConns string
 	// SetConnMaxLifetime 设置了连接可复用的最大时间
 	ConnMaxLifetime string
+}
+
+type RedisConfig struct {
+	Addr     string
+	Password string
+	DB       int
 }
