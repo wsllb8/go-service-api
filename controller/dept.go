@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"go-service-api/common"
+	"go-service-api/global"
 	"go-service-api/model"
 	"go-service-api/pkg/response"
 
@@ -22,7 +22,7 @@ func (d *DeptController) CreateDept(c *gin.Context) {
 		response.ErrorMsg(c, err.Error())
 		return
 	}
-	if err := common.DB.Create(&req).Error; err != nil {
+	if err := global.DB.Create(&req).Error; err != nil {
 		response.ErrorMsg(c, err.Error())
 		return
 	}
@@ -36,7 +36,7 @@ func (d *DeptController) DeleteDept(c *gin.Context) {
 		response.ErrorMsg(c, err.Error())
 		return
 	}
-	if err := common.DB.Delete(&req).Error; err != nil {
+	if err := global.DB.Delete(&req).Error; err != nil {
 		response.ErrorMsg(c, err.Error())
 		return
 	}
@@ -50,7 +50,7 @@ func (d *DeptController) UpdateDept(c *gin.Context) {
 		response.ErrorMsg(c, err.Error())
 		return
 	}
-	if err := common.DB.Debug().Save(&req).Error; err != nil {
+	if err := global.DB.Debug().Save(&req).Error; err != nil {
 		response.ErrorMsg(c, err.Error())
 		return
 	}
@@ -60,7 +60,7 @@ func (d *DeptController) UpdateDept(c *gin.Context) {
 // 获取部门列表
 func (d *DeptController) GetDeptList(c *gin.Context) {
 	var list []model.Dept
-	if err := common.DB.Find(&list).Error; err != nil {
+	if err := global.DB.Find(&list).Error; err != nil {
 		response.ErrorMsg(c, err.Error())
 		return
 	}

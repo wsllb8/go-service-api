@@ -1,11 +1,11 @@
 package initialize
 
 import (
-	"go-service-api/common"
+	"go-service-api/global"
 
 	"go.uber.org/zap"
 )
 
 func Log() {
-	common.Logger, _ = zap.NewProduction()
+	global.Logger, _ = zap.NewProduction()
 }

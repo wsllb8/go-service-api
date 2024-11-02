@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"go-service-api/common"
-	"go-service-api/common/initialize"
 	"go-service-api/config"
+	"go-service-api/global"
+	"go-service-api/initialize"
 	"go-service-api/middleware"
 	"go-service-api/router"
 	"log"
@@ -21,7 +21,7 @@ func main() {
 	initialize.Mysql()
 	initialize.Log()
 	r := gin.New()
-	r.Use(middleware.Logger(common.Logger, time.RFC3339, true), middleware.Recovery(common.Logger, true))
+	r.Use(middleware.Logger(global.Logger, time.RFC3339, true), middleware.Recovery(global.Logger, true))
 	r.Use(middleware.Cors())
 	router.Router(r)
 	addr := fmt.Sprintf("%s:%d", config.Server.Host, config.Server.Port)
@@ -36,7 +36,7 @@ func main() {
 	go func() {
 		<-quit
 		go func() {
-			common.Logger.Sync()
+			global.Logger.Sync()
 		}()
 		if err := server.Close(); err != nil {
 			log.Fatal("服务关闭出现错误:", err)

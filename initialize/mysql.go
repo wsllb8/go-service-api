@@ -2,8 +2,8 @@ package initialize
 
 import (
 	"fmt"
-	"go-service-api/common"
 	"go-service-api/config"
+	"go-service-api/global"
 	"go-service-api/model"
 
 	"gorm.io/driver/mysql"
@@ -28,6 +28,6 @@ func Mysql() {
 	if err != nil {
 		panic("数据库连接失败:" + err.Error())
 	}
-	common.DB = db
+	global.DB = db
 	db.AutoMigrate(&model.User{}, &model.Menu{}, &model.Role{}, &model.Dept{})
 }

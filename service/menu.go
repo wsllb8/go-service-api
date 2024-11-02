@@ -1,7 +1,7 @@
 package service
 
 import (
-	"go-service-api/common"
+	"go-service-api/global"
 	"go-service-api/model"
 )
 
@@ -14,7 +14,7 @@ func NewMenuService() *MenuService {
 
 // 创建菜单
 func (m *MenuService) Create(menu *model.Menu) error {
-	if err := common.DB.Create(&menu).Error; err != nil {
+	if err := global.DB.Create(&menu).Error; err != nil {
 		return err
 	}
 	return nil
@@ -22,7 +22,7 @@ func (m *MenuService) Create(menu *model.Menu) error {
 
 // 更新菜单
 func (m *MenuService) Update(menu *model.Menu) error {
-	if err := common.DB.Save(&menu).Error; err != nil {
+	if err := global.DB.Save(&menu).Error; err != nil {
 		return err
 	}
 	return nil
@@ -30,7 +30,7 @@ func (m *MenuService) Update(menu *model.Menu) error {
 
 // 删除菜单
 func (m *MenuService) Delete(id uint) error {
-	if err := common.DB.Delete(&model.Menu{}, id).Error; err != nil {
+	if err := global.DB.Delete(&model.Menu{}, id).Error; err != nil {
 		return err
 	}
 	return nil

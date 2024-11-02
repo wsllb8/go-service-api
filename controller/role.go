@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"go-service-api/common"
+	"go-service-api/global"
 	"go-service-api/model"
 	"go-service-api/pkg/orm"
 	"go-service-api/pkg/response"
@@ -63,7 +63,7 @@ func (r *RoleController) Update(c *gin.Context) {
 // 获取角色列表
 func (r *RoleController) GetList(c *gin.Context) {
 	var roles []model.Role
-	tx := common.DB.Model(&model.Role{})
+	tx := global.DB.Model(&model.Role{})
 	orm.Paginate(c)(tx).Find(&roles)
 	response.SuccessData(c, gin.H{
 		"list": roles,
@@ -80,7 +80,7 @@ func (r *RoleController) SetStatus(c *gin.Context) {
 		response.Failed(c, err.Error())
 		return
 	}
-	if err := common.DB.Model(&model.Role{}).Where("id = ?", req.ID).Update("status", req.Status).Error; err != nil {
+	if err := global.DB.Model(&model.Role{}).Where("id = ?", req.ID).Update("status", req.Status).Error; err != nil {
 		response.ErrorMsg(c, err.Error())
 		return
 	}

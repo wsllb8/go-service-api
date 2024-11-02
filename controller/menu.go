@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"go-service-api/common"
+	"go-service-api/global"
 	"go-service-api/model"
 	"go-service-api/pkg/response"
 	"go-service-api/service"
@@ -21,7 +21,7 @@ func NewMenuController() *MenuController {
 func (m *MenuController) GetMenus(c *gin.Context) {
 	// 获取用户信息
 	var menus []model.Menu
-	common.DB.Find(&menus)
+	global.DB.Find(&menus)
 	// 对菜单进行树形结构处理
 	nodeMap := make(map[int]*model.Menu)
 	var rootItems []*model.Menu
@@ -120,7 +120,7 @@ func sortChildren(items []*model.Menu) {
 // 获取菜单列表
 func (m *MenuController) GetList(c *gin.Context) {
 	var menus []model.Menu
-	common.DB.Find(&menus)
+	global.DB.Find(&menus)
 	// 对菜单进行树形结构处理
 	nodeMap := make(map[int]*model.Menu)
 	var rootItems []*model.Menu
@@ -147,7 +147,7 @@ func (m *MenuController) GetList(c *gin.Context) {
 
 func (m *MenuController) GetMenuList(c *gin.Context) {
 	var list []model.Menu
-	common.DB.Find(&list)
+	global.DB.Find(&list)
 	response.SuccessData(c, gin.H{
 		"list": list,
 	})

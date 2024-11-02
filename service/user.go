@@ -2,7 +2,7 @@ package service
 
 import (
 	"errors"
-	"go-service-api/common"
+	"go-service-api/global"
 	"go-service-api/model"
 
 	"github.com/google/uuid"
@@ -31,7 +31,7 @@ func (u *UserService) Create(user *model.User) error {
 		return err
 	}
 	user.Password = string(hasedPassword)
-	if err := common.DB.Create(&user).Error; err != nil {
+	if err := global.DB.Create(&user).Error; err != nil {
 		return err
 	}
 	return nil
@@ -45,7 +45,7 @@ func (u *UserService) Verify(user *model.User) (*model.User, error) {
 	}
 	var newUser model.User
 	// 查询用户
-	if err := common.DB.Where("username = ?", user.Username).First(&newUser).Error; err != nil {
+	if err := global.DB.Where("username = ?", user.Username).First(&newUser).Error; err != nil {
 		return nil, err
 	}
 	// 验证密码
@@ -56,7 +56,7 @@ func (u *UserService) Verify(user *model.User) (*model.User, error) {
 }
 
 func (u *UserService) Info(user *model.User) error {
-	if err := common.DB.Where("username = ?", user.Username).First(&user).Error; err != nil {
+	if err := global.DB.Where("username = ?", user.Username).First(&user).Error; err != nil {
 		return err
 	}
 	return nil
@@ -66,7 +66,7 @@ func (u *UserService) Info(user *model.User) error {
 func (u *UserService) Update(user *model.User) error {
 	user.Dept = nil
 	user.Role = nil
-	if err := common.DB.Debug().Save(&user).Error; err != nil {
+	if err := global.DB.Debug().Save(&user).Error; err != nil {
 		return err
 	}
 	return nil
@@ -74,7 +74,7 @@ func (u *UserService) Update(user *model.User) error {
 
 // Delete 删除用户
 func (u *UserService) Delete(id uint) error {
-	if err := common.DB.Delete(&model.User{}, id).Error; err != nil {
+	if err := global.DB.Delete(&model.User{}, id).Error; err != nil {
 		return err
 	}
 	return nil

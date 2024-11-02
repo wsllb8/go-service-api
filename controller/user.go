@@ -2,7 +2,7 @@ package controller
 
 import (
 	"fmt"
-	"go-service-api/common"
+	"go-service-api/global"
 	"go-service-api/model"
 	"go-service-api/pkg"
 	"go-service-api/pkg/orm"
@@ -158,7 +158,7 @@ func (u *UserController) List(c *gin.Context) {
 	username := c.Query("username")
 	nickName := c.Query("nickName")
 	deptId := c.Query("deptId")
-	tx := common.DB.Model(&model.User{})
+	tx := global.DB.Model(&model.User{})
 	if username != "" {
 		tx.Where("username like ?", "%"+username+"%")
 	}
@@ -167,7 +167,7 @@ func (u *UserController) List(c *gin.Context) {
 	}
 	if deptId != "" && deptId != "0" {
 		var dept model.Dept
-		common.DB.Where("id = ?", deptId).First(&dept)
+		global.DB.Where("id = ?", deptId).First(&dept)
 		deptIds := []int{int(dept.ID)}
 		// 如果有父级部门，也要查询出来
 		if dept.ParentID != 0 {
@@ -175,7 +175,7 @@ func (u *UserController) List(c *gin.Context) {
 		}
 		// 查询子部门
 		var children []model.Dept
-		common.DB.Where("parent_id = ?", dept.ID).Find(&children)
+		global.DB.Where("parent_id = ?", dept.ID).Find(&children)
 		for _, v := range children {
 			deptIds = append(deptIds, int(v.ID))
 		}
@@ -224,7 +224,7 @@ func (u *UserController) ResetPassword(c *gin.Context) {
 func (u *UserController) GetPermission(c *gin.Context) {
 	// 获取用户信息
 	var menus []model.Menu
-	common.DB.Find(&menus)
+	global.DB.Find(&menus)
 	// 对菜单进行树形结构处理
 	nodeMap := make(map[int]*model.Menu)
 	var rootItems []*model.Menu
